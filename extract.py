@@ -79,6 +79,7 @@ if __name__ == "__main__":
     parser.add_argument("target_class", help="The target class to find relevant nodes for")  # Only for extract.py
     parser.add_argument("--verbose", action="store_true", help="Print detailed information about each node")
     parser.add_argument("--json", default="decision_tree_table.json", help="Path to the JSON file containing the decision tree data")
+    parser.add_argument("--vocab", default="vocab.json", help="Path to the vocabulary JSON file")
     args = parser.parse_args()
 
     try:
@@ -97,4 +98,12 @@ if __name__ == "__main__":
     if relevant_nodes:
         print_class_nodes(relevant_nodes, tree_data['features'], args.verbose)
     else:
-        print(f"No nodes found with non-zero probability for class '{target_class}'.")
+        print(f"No nodes found with non-zero probability for class '{target_class}'. Perhaps you need to make a vague search with vague search file")
+        from vague_search_edit_d import vague_search, load_words_from_json
+
+        word_list = load_words_from_json(args.vocab)
+        results = vague_search(target_class, word_list, 5)
+
+        print(f"Top 5 results for '{target_class}':")
+        for word, distance in results:
+            print(f"{word}: {distance}")

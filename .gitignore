@@ -1,2 +1,6 @@
 plant_traits_espece_ee.csv
 decision_tree_table.json
+vocab.json
+Combretaceae.txt
+*.pyc
+__pycache__
